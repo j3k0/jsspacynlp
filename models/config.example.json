@@ -1,0 +1,19 @@
+{
+  "models": [
+    {
+      "name": "en_core_web_sm",
+      "language": "en",
+      "type": "small",
+      "path": "en_core_web_sm",
+      "disable": ["parser", "ner"]
+    },
+    {
+      "name": "custom_occitan",
+      "language": "oc",
+      "type": "custom",
+      "path": "/app/models/custom/oc_model",
+      "disable": ["parser", "ner"]
+    }
+  ]
+}
+

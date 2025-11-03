@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  jsspacynlp-server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: jsspacynlp-server
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./models:/app/models:ro
+    environment:
+      - JSSPACYNLP_MODELS_CONFIG_DIR=/app/models
+      - JSSPACYNLP_LOG_LEVEL=info
+      - JSSPACYNLP_MAX_BATCH_SIZE=1000
+      - JSSPACYNLP_MAX_TEXT_LENGTH=1000000
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - jsspacynlp-network
+
+networks:
+  jsspacynlp-network:
+    driver: bridge
+

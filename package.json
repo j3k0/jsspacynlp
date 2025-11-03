@@ -1,0 +1,43 @@
+{
+  "name": "jsspacynlp",
+  "version": "0.1.0",
+  "description": "Fast lemmatization service powered by spaCy with TypeScript/JavaScript client",
+  "main": "client/dist/index.js",
+  "types": "client/dist/index.d.ts",
+  "scripts": {
+    "build": "cd client && npm run build",
+    "test": "cd client && npm test",
+    "test:server": "cd server && pytest",
+    "test:all": "npm run test:server && npm run test",
+    "docker:build": "docker-compose build",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:logs": "docker-compose logs -f",
+    "install:all": "cd client && npm install && cd ../server && pip install -r requirements-dev.txt"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/j3k0/jsspacynlp.git"
+  },
+  "keywords": [
+    "spacy",
+    "nlp",
+    "lemmatization",
+    "natural-language-processing",
+    "linguistic-annotation",
+    "text-processing",
+    "fastapi",
+    "typescript"
+  ],
+  "author": "",
+  "license": "MIT",
+  "files": [
+    "client/dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
+

@@ -1,0 +1,56 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+ENV/
+.pytest_cache/
+.coverage
+htmlcov/
+*.log
+.mypy_cache/
+.ruff_cache/
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+dist/
+*.tsbuildinfo
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Environment
+.env
+.env.local
+
+# Models (don't commit large model files)
+models/fr_*/
+models/en_*/
+models/de_*/
+models/es_*/
+models/it_*/
+models/pt_*/
+models/ru_*/
+models/custom/*/
+
+# Docker
+.dockerignore
+
+# Misc
+*.bak
+*.tmp
+.cache/
+
