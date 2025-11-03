@@ -36,7 +36,8 @@ dist/
 .env
 .env.local
 
-# Models (don't commit large model files)
+# Models (don't commit large model files or user config)
+models/config.json
 models/fr_*/
 models/en_*/
 models/de_*/

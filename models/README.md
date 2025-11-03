@@ -2,9 +2,23 @@
 
 This directory contains the configuration and (optionally) custom spaCy models for jsspacynlp.
 
-## Configuration File
+## Configuration Files
 
-The `config.json` file specifies which models to load at startup. Each model entry requires:
+### config.json (User Configuration)
+
+Create `config.json` to specify which models to load at startup. This file is **not tracked in git** - it's your personal configuration.
+
+If `config.json` doesn't exist, the server will use `config.default.json` (which has no models by default).
+
+### Creating Your Configuration
+
+Copy the example and customize it:
+```bash
+cp config.example.json config.json
+# Edit config.json with your desired models
+```
+
+Each model entry requires:
 
 - **name**: Unique identifier for the model (used in API requests)
 - **language**: Language code (e.g., "fr", "en", "es")

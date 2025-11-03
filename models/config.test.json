@@ -1,0 +1,12 @@
+{
+  "models": [
+    {
+      "name": "en_core_web_sm",
+      "language": "en",
+      "type": "small",
+      "path": "en_core_web_sm",
+      "disable": ["parser", "ner"]
+    }
+  ]
+}
+

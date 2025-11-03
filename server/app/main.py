@@ -44,14 +44,26 @@ async def lifespan(app: FastAPI):
     # Load models from config
     config_dir = Path(settings.models_config_dir)
     config_file = config_dir / settings.models_config_file
+    default_config_file = config_dir / settings.models_config_default
 
-    logger.info(f"Looking for model config at: {config_file}")
-
-    try:
-        model_registry.load_from_config(config_file)
-    except Exception as e:
-        logger.error(f"Error loading models: {e}")
+    # Try config.json first, fall back to config.default.json
+    if config_file.exists():
+        logger.info(f"Looking for model config at: {config_file}")
+        config_to_load = config_file
+    elif default_config_file.exists():
+        logger.info(f"config.json not found, using default: {default_config_file}")
+        config_to_load = default_config_file
+    else:
+        logger.warning(f"No config files found at {config_file} or {default_config_file}")
         logger.warning("Server will start without models")
+        config_to_load = None
+
+    if config_to_load:
+        try:
+            model_registry.load_from_config(config_to_load)
+        except Exception as e:
+            logger.error(f"Error loading models: {e}")
+            logger.warning("Server will start without models")
 
     loaded_models = model_registry.list_models()
     if loaded_models:
