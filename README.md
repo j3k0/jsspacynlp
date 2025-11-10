@@ -8,14 +8,14 @@ Fast lemmatization microservice powered by spaCy with TypeScript/JavaScript clie
 
 jsspacynlp provides a performant REST API for text lemmatization using spaCy models, along with a full-featured TypeScript/JavaScript client library. Designed for processing large corpora efficiently, it features:
 
-- 🚀 **High Performance**: FastAPI-based server with batch processing
-- 📦 **Compact Format**: 50-70% smaller JSON responses than traditional formats
-- 🌍 **Multi-Language**: Support for transformer and large spaCy models
-- 🐳 **Docker Ready**: Easy deployment with docker-compose
-- 📝 **Export Utilities**: NoSketchEngine vertical format, CSV, JSON
-- 🔄 **Batch Processing**: Handle millions of texts with progress tracking
-- 💪 **TypeScript**: Full type safety for the client library
-- 🧪 **Well Tested**: >80% test coverage on both server and client
+- **High Performance**: FastAPI-based server with batch processing
+- **Compact Format**: 50-70% smaller JSON responses than traditional formats
+- **Multi-Language**: Support for transformer and large spaCy models
+- **Docker Ready**: Easy deployment with docker-compose
+- **Export Utilities**: NoSketchEngine vertical format, CSV, JSON
+- **Batch Processing**: Handle millions of texts with progress tracking
+- **TypeScript**: Full type safety for the client library
+- **Well Tested**: >80% test coverage on both server and client
 
 ## Quick Start
 
@@ -60,9 +60,9 @@ for (const doc of result.documents) {
 ## Architecture
 
 ```
-┌─────────────────────────────────────────┐
-│   Your Application (Node.js/Browser)    │
-│                                         │
+┌────────────────────────────────────────┐
+│   Your Application (Node.js/Browser)   │
+│                                        │
 │  ┌───────────────────────────────────┐ │
 │  │  jsspacynlp Client Library        │ │
 │  │  - Batch processing               │ │
@@ -72,22 +72,22 @@ for (const doc of result.documents) {
 └──────────────────┼─────────────────────┘
                    │ HTTP/REST
                    ▼
-┌─────────────────────────────────────────┐
-│   jsspacynlp Server (Docker)            │
-│                                         │
+┌────────────────────────────────────────┐
+│   jsspacynlp Server (Docker)           │
+│                                        │
 │  ┌───────────────────────────────────┐ │
 │  │  FastAPI REST API                 │ │
 │  │  - /lemmatize (batch support)     │ │
 │  │  - /health, /models, /info        │ │
 │  └───────────────┬───────────────────┘ │
-│                  │                      │
+│                  │                     │
 │  ┌───────────────▼───────────────────┐ │
 │  │  spaCy Model Registry             │ │
 │  │  - Pre-loaded models              │ │
 │  │  - Transformer & large models     │ │
 │  │  - Custom model support           │ │
 │  └───────────────────────────────────┘ │
-└─────────────────────────────────────────┘
+└────────────────────────────────────────┘
 ```
 
 ## Project Structure
