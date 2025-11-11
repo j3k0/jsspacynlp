@@ -30,7 +30,7 @@ ENV PATH="/opt/venv/bin:$PATH"
 # Create non-root user
 RUN useradd -m -u 1000 appuser && \
     mkdir -p /app /app/models && \
-    chown -R appuser:appuser /app
+    chown -R appuser:appuser /app /opt/venv
 
 # Set working directory
 WORKDIR /app

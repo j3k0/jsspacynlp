@@ -3,6 +3,8 @@
 import json
 import logging
 import os
+import subprocess
+import sys
 from pathlib import Path
 from typing import Dict, Optional
 
@@ -23,13 +25,17 @@ class ModelConfig:
         language: str,
         model_type: str,
         path: str,
-        disable: Optional[list[str]] = None
+        disable: Optional[list[str]] = None,
+        download_url: Optional[str] = None,
+        huggingface_repo: Optional[str] = None
     ):
         self.name = name
         self.language = language
         self.model_type = model_type
         self.path = path
         self.disable = disable or settings.disable_pipeline_components
+        self.download_url = download_url
+        self.huggingface_repo = huggingface_repo
 
 
 class ModelRegistry:
@@ -38,6 +44,9 @@ class ModelRegistry:
     def __init__(self):
         self.models: Dict[str, Language] = {}
         self.configs: Dict[str, ModelConfig] = {}
+        self.models_download_dir = Path(settings.models_cache_dir)
+        # Ensure download directory exists
+        self.models_download_dir.mkdir(parents=True, exist_ok=True)
 
     def load_from_config(self, config_path: Path) -> None:
         """Load models from configuration file.
@@ -71,7 +80,9 @@ class ModelRegistry:
                     language=model_data.get('language', 'unknown'),
                     model_type=model_data.get('type', 'standard'),
                     path=model_data['path'],
-                    disable=model_data.get('disable')
+                    disable=model_data.get('disable'),
+                    download_url=model_data.get('download_url'),
+                    huggingface_repo=model_data.get('huggingface_repo')
                 )
                 self.load_model(config)
             except KeyError as e:
@@ -81,13 +92,77 @@ class ModelRegistry:
 
         logger.info(f"Successfully loaded {len(self.models)} models")
 
+    def _download_model_from_url(self, config: ModelConfig) -> bool:
+        """Download and install model from URL using pip.
+
+        Args:
+            config: Model configuration with download_url
+
+        Returns:
+            True if download successful, False otherwise
+        """
+        if not config.download_url:
+            return False
+
+        logger.info(f"Downloading model '{config.name}' from {config.download_url}...")
+
+        try:
+            # Use pip to install the model
+            subprocess.check_call(
+                [sys.executable, "-m", "pip", "install", "--no-cache-dir", config.download_url],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE
+            )
+            logger.info(f"Successfully downloaded model '{config.name}'")
+            return True
+        except subprocess.CalledProcessError as e:
+            logger.error(f"Failed to download model from {config.download_url}: {e}")
+            return False
+
+    def _download_model_from_huggingface(self, config: ModelConfig) -> Optional[str]:
+        """Download model from HuggingFace Hub.
+
+        Args:
+            config: Model configuration with huggingface_repo
+
+        Returns:
+            Path to downloaded model directory, or None if failed
+        """
+        if not config.huggingface_repo:
+            return None
+
+        logger.info(f"Downloading model '{config.name}' from HuggingFace: {config.huggingface_repo}...")
+
+        try:
+            from huggingface_hub import snapshot_download
+
+            # Download to our models download directory
+            model_dir = self.models_download_dir / config.name
+            
+            # Download the model
+            downloaded_path = snapshot_download(
+                repo_id=config.huggingface_repo,
+                local_dir=str(model_dir),
+                local_dir_use_symlinks=False
+            )
+            
+            logger.info(f"Successfully downloaded model '{config.name}' to {downloaded_path}")
+            return str(downloaded_path)
+        except Exception as e:
+            logger.error(f"Failed to download from HuggingFace {config.huggingface_repo}: {e}")
+            return None
+
     def load_model(self, config: ModelConfig) -> None:
-        """Load a single spaCy model.
+        """Load a single spaCy model, downloading if necessary.
 
         Args:
             config: Model configuration
         """
         logger.info(f"Loading model '{config.name}' from '{config.path}'...")
+
+        # Try loading the model first
+        model_loaded = False
+        nlp = None
 
         try:
             # Check if path is absolute or relative
@@ -96,27 +171,63 @@ class ModelRegistry:
                 # Try as spaCy model name first
                 try:
                     nlp = spacy.load(model_path, disable=config.disable)
+                    model_loaded = True
                 except OSError:
                     # Try as relative path from models directory
                     models_dir = Path(settings.models_config_dir)
                     model_path = models_dir / model_path
-                    nlp = spacy.load(str(model_path), disable=config.disable)
+                    if Path(model_path).exists():
+                        nlp = spacy.load(str(model_path), disable=config.disable)
+                        model_loaded = True
             else:
-                nlp = spacy.load(model_path, disable=config.disable)
-
-            self.models[config.name] = nlp
-            self.configs[config.name] = config
-
-            # Log active components
-            active_components = nlp.pipe_names
-            logger.info(
-                f"Model '{config.name}' loaded successfully. "
-                f"Active components: {', '.join(active_components)}"
-            )
+                if Path(model_path).exists():
+                    nlp = spacy.load(model_path, disable=config.disable)
+                    model_loaded = True
 
         except Exception as e:
-            logger.error(f"Failed to load model '{config.name}': {e}")
-            raise
+            logger.debug(f"Could not load model '{config.name}' from path: {e}")
+            model_loaded = False
+
+        # If model not found, try downloading it
+        if not model_loaded:
+            logger.info(f"Model '{config.name}' not found, attempting to download...")
+            
+            # Try download_url first (for pip-installable packages)
+            if config.download_url:
+                if self._download_model_from_url(config):
+                    # Try loading again after download
+                    try:
+                        nlp = spacy.load(config.path, disable=config.disable)
+                        model_loaded = True
+                    except Exception as e:
+                        logger.error(f"Failed to load model after download: {e}")
+            
+            # Try HuggingFace if URL download didn't work
+            if not model_loaded and config.huggingface_repo:
+                downloaded_path = self._download_model_from_huggingface(config)
+                if downloaded_path:
+                    try:
+                        nlp = spacy.load(downloaded_path, disable=config.disable)
+                        model_loaded = True
+                    except Exception as e:
+                        logger.error(f"Failed to load model from HuggingFace download: {e}")
+
+        # Final check
+        if not model_loaded or nlp is None:
+            error_msg = f"Failed to load model '{config.name}' from any source"
+            logger.error(error_msg)
+            raise RuntimeError(error_msg)
+
+        # Store the model
+        self.models[config.name] = nlp
+        self.configs[config.name] = config
+
+        # Log active components
+        active_components = nlp.pipe_names
+        logger.info(
+            f"Model '{config.name}' loaded successfully. "
+            f"Active components: {', '.join(active_components)}"
+        )
 
     def get_model(self, name: str) -> Optional[Language]:
         """Get a loaded model by name.

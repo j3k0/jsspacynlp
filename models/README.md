@@ -25,6 +25,8 @@ Each model entry requires:
 - **type**: Model type (e.g., "transformer", "large", "custom")
 - **path**: Model path or spaCy model name
 - **disable**: Optional list of pipeline components to disable for performance
+- **download_url**: Optional URL to download model via pip (for official spaCy models)
+- **huggingface_repo**: Optional HuggingFace repository ID (for custom models on HuggingFace Hub)
 
 ### Example Configuration
 
@@ -32,14 +34,31 @@ Each model entry requires:
 {
   "models": [
     {
+      "name": "en_core_web_sm",
+      "language": "en",
+      "type": "small",
+      "path": "en_core_web_sm",
+      "download_url": "https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.7.1/en_core_web_sm-3.7.1-py3-none-any.whl",
+      "disable": ["parser", "ner"]
+    },
+    {
       "name": "fr_dep_news_trf",
       "language": "fr",
       "type": "transformer",
       "path": "fr_dep_news_trf",
+      "download_url": "https://github.com/explosion/spacy-models/releases/download/fr_dep_news_trf-3.7.0/fr_dep_news_trf-3.7.0-py3-none-any.whl",
       "disable": ["parser", "ner"]
     },
     {
-      "name": "custom_occitan",
+      "name": "custom_from_huggingface",
+      "language": "en",
+      "type": "custom",
+      "path": "custom_from_huggingface",
+      "huggingface_repo": "your-org/your-custom-spacy-model",
+      "disable": ["parser", "ner"]
+    },
+    {
+      "name": "custom_local",
       "language": "oc",
       "type": "custom",
       "path": "/app/models/custom/oc_model",
@@ -49,25 +68,86 @@ Each model entry requires:
 }
 ```
 
-## Model Paths
+## Model Loading Methods
 
-Models can be specified as:
+The service supports three ways to load models:
 
-1. **spaCy model names**: The server will load them from the installed spaCy models
-   - Example: `"fr_dep_news_trf"`
-   - Requires the model to be installed via `pip install` or `spacy download`
+### 1. Auto-Download from URL (Recommended for Official spaCy Models)
 
-2. **Absolute paths**: For custom models
-   - Example: `"/app/models/custom/oc_model"`
-   - Mount custom models to `/app/models/custom/` in Docker
+Add `download_url` to automatically download and install models at startup:
 
-3. **Relative paths**: Relative to the models directory
-   - Example: `"custom/oc_model"`
-   - Will look in `/app/models/custom/oc_model`
+```json
+{
+  "name": "en_core_web_sm",
+  "path": "en_core_web_sm",
+  "download_url": "https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.7.1/en_core_web_sm-3.7.1-py3-none-any.whl"
+}
+```
 
-## Installing Standard Models
+**Benefits:**
+- ✅ No need to pre-install models in Docker image
+- ✅ Smaller Docker image size
+- ✅ Easy to change models by updating config.json
+- ✅ Models downloaded once and cached persistently
 
-To install standard spaCy models, use pip:
+Find official spaCy model URLs at: https://github.com/explosion/spacy-models/releases
+
+### 2. Auto-Download from HuggingFace Hub (For Custom Models)
+
+Add `huggingface_repo` to download custom models from HuggingFace:
+
+```json
+{
+  "name": "custom_model",
+  "path": "custom_model",
+  "huggingface_repo": "your-organization/your-spacy-model"
+}
+```
+
+**Benefits:**
+- ✅ Host custom trained spaCy models on HuggingFace
+- ✅ Easy sharing and versioning
+- ✅ Automatic download at startup
+- ✅ Models cached in `/app/models/downloads/`
+
+**Requirements for HuggingFace models:**
+- Must be valid spaCy model directories (with config.cfg, vocab/, etc.)
+- Upload your spaCy model directory to HuggingFace Hub
+- Use the repository ID (e.g., "username/model-name")
+
+### 3. Pre-Installed or Local Models
+
+Use `path` without download URLs for:
+- Already installed models (via pip before startup)
+- Models mounted as volumes
+- Custom models in the models directory
+
+```json
+{
+  "name": "local_model",
+  "path": "/app/models/custom/my_model"
+}
+```
+
+**Model paths can be:**
+- **spaCy model names**: `"en_core_web_sm"` (if already pip-installed)
+- **Absolute paths**: `"/app/models/custom/oc_model"`
+- **Relative paths**: `"custom/oc_model"` (relative to `/app/models/`)
+
+## How It Works
+
+1. Service starts and reads `config.json`
+2. For each model:
+   - **First**: Try loading from `path`
+   - **If not found + has `download_url`**: Download via pip and load
+   - **If still not found + has `huggingface_repo`**: Download from HuggingFace and load
+   - **If all fail**: Log error and skip model
+3. Downloaded models are cached persistently in `/app/models/downloads/`
+4. On restart: Models already downloaded load instantly
+
+## Manual Model Installation (Alternative)
+
+You can still manually install models if preferred:
 
 ```bash
 pip install https://github.com/explosion/spacy-models/releases/download/fr_dep_news_trf-3.7.0/fr_dep_news_trf-3.7.0-py3-none-any.whl
@@ -81,9 +161,38 @@ python -m spacy download fr_dep_news_trf
 
 ## Custom Models
 
-Place custom spaCy models in the `custom/` subdirectory and reference them in `config.json`.
+You have three options for custom models:
 
-Custom models should be valid spaCy model packages with:
+### Option 1: HuggingFace Hub (Recommended)
+
+Upload your trained spaCy model to HuggingFace Hub and reference it:
+
+```json
+{
+  "name": "my_custom_model",
+  "path": "my_custom_model",
+  "huggingface_repo": "your-username/your-model-name"
+}
+```
+
+The model will be automatically downloaded on first startup.
+
+### Option 2: Volume Mounting
+
+Place custom spaCy models in the `custom/` subdirectory and mount as volume:
+
+```json
+{
+  "name": "local_custom",
+  "path": "/app/models/custom/my_model"
+}
+```
+
+### Option 3: Include in Docker Build
+
+Copy models into the Docker image during build (not recommended, increases image size).
+
+**All custom models must be valid spaCy model packages with:**
 - `config.cfg`
 - `tokenizer`
 - `vocab/`

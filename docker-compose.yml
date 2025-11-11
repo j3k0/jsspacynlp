@@ -10,8 +10,10 @@ services:
       - "8000:8000"
     volumes:
       - ./models:/app/models:ro
+      - models-cache:/app/models-cache
     environment:
       - JSSPACYNLP_MODELS_CONFIG_DIR=/app/models
+      - JSSPACYNLP_MODELS_CACHE_DIR=/app/models-cache
       - JSSPACYNLP_LOG_LEVEL=info
       - JSSPACYNLP_MAX_BATCH_SIZE=1000
       - JSSPACYNLP_MAX_TEXT_LENGTH=1000000
@@ -24,6 +26,10 @@ services:
       start_period: 40s
     networks:
       - jsspacynlp-network
+
+volumes:
+  models-cache:
+    driver: local
 
 networks:
   jsspacynlp-network:

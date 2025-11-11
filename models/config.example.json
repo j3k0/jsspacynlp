@@ -5,10 +5,27 @@
       "language": "en",
       "type": "small",
       "path": "en_core_web_sm",
+      "download_url": "https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.7.1/en_core_web_sm-3.7.1-py3-none-any.whl",
       "disable": ["parser", "ner"]
     },
     {
-      "name": "custom_occitan",
+      "name": "fr_dep_news_trf",
+      "language": "fr",
+      "type": "transformer",
+      "path": "fr_dep_news_trf",
+      "download_url": "https://github.com/explosion/spacy-models/releases/download/fr_dep_news_trf-3.7.0/fr_dep_news_trf-3.7.0-py3-none-any.whl",
+      "disable": ["parser", "ner"]
+    },
+    {
+      "name": "custom_from_huggingface",
+      "language": "en",
+      "type": "custom",
+      "path": "custom_from_huggingface",
+      "huggingface_repo": "your-org/your-custom-spacy-model",
+      "disable": ["parser", "ner"]
+    },
+    {
+      "name": "custom_local",
       "language": "oc",
       "type": "custom",
       "path": "/app/models/custom/oc_model",

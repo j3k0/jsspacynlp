@@ -13,6 +13,7 @@ class Settings(BaseSettings):
     models_config_dir: str = "/app/models"
     models_config_file: str = "config.json"
     models_config_default: str = "config.default.json"
+    models_cache_dir: str = "/app/models-cache"
     
     # Server configuration
     host: str = "0.0.0.0"
