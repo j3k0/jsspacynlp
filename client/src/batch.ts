@@ -13,7 +13,8 @@ const DEFAULT_BATCH_SIZE = 1000;
  */
 export class BatchProcessor {
   private client: SpacyNLP;
-  private config: Required<Omit<BatchProcessorConfig, 'onProgress'>> & {
+  private config: Required<Omit<BatchProcessorConfig, 'onProgress' | 'fields'>> & {
+    fields?: string[];
     onProgress?: (processed: number, total: number) => void;
   };
 
