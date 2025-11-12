@@ -255,7 +255,8 @@ cd server && pytest
 
 ## Learn More
 
-- Full Documentation: [README.md](README.md)
+- Overview: [README.md](README.md)
+- API Reference: [API_REFERENCE.md](API_REFERENCE.md)
 - Client API: [client/README.md](client/README.md)
 - Server API: [server/README.md](server/README.md)
 - Model Configuration: [models/README.md](models/README.md)

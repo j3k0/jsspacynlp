@@ -255,7 +255,8 @@ Include:
 ## Documentation
 
 - Update README.md for user-facing changes
-- Update API documentation for new endpoints/methods
+- Update API_REFERENCE.md for new endpoints/methods
+- Update API documentation for new features
 - Add code comments for complex logic
 - Include examples for new features
 
@@ -264,7 +265,10 @@ Include:
 If you have questions:
 
 - Check existing issues on GitHub
-- Read the documentation
+- Read the documentation:
+  - [API_REFERENCE.md](API_REFERENCE.md) - Complete API reference
+  - [README.md](README.md) - Overview
+  - [QUICKSTART.md](QUICKSTART.md) - Tutorial
 - Ask in a new GitHub issue
 
 ## License

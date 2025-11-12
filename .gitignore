@@ -23,6 +23,7 @@ yarn-error.log*
 .npm
 dist/
 *.tsbuildinfo
+client/package-lock.json
 
 # IDEs
 .vscode/

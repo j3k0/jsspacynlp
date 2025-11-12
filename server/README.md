@@ -221,6 +221,13 @@ ruff check app/ tests/
 mypy app/
 ```
 
+## Documentation
+
+- [API_REFERENCE.md](../API_REFERENCE.md) - Complete API reference
+- [README.md](../README.md) - Overview and getting started
+- [client/README.md](../client/README.md) - Client library details
+- [models/README.md](../models/README.md) - Model configuration
+
 ## License
 
 MIT License - See LICENSE file for details.

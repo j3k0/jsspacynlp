@@ -227,3 +227,10 @@ volumes:
   - ./models:/app/models:ro
 ```
 
+## Documentation
+
+- [API_REFERENCE.md](../API_REFERENCE.md) - Complete API reference
+- [README.md](../README.md) - Overview and getting started
+- [client/README.md](../client/README.md) - Client library details
+- [server/README.md](../server/README.md) - Server details
+
