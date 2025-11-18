@@ -11,6 +11,12 @@ from typing import Dict, Optional
 import spacy
 from spacy.language import Language
 
+# Import spacy-transformers to register transformer components
+try:
+    import spacy_transformers  # noqa: F401
+except ImportError:
+    pass  # spacy-transformers is optional, only needed for transformer models
+
 from .config import settings
 
 logger = logging.getLogger(__name__)

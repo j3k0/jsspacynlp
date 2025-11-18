@@ -1,5 +1,12 @@
 """FastAPI application for jsspacynlp lemmatization service."""
 
+# Import spacy-transformers early to register transformer components
+# This must happen before any spacy.load() calls
+try:
+    import spacy_transformers  # noqa: F401
+except ImportError:
+    pass  # spacy-transformers is optional, only needed for transformer models
+
 import logging
 import time
 from contextlib import asynccontextmanager
