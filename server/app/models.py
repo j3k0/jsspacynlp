@@ -15,7 +15,14 @@ from spacy.language import Language
 try:
     import spacy_transformers  # noqa: F401
 except ImportError:
-    pass  # spacy-transformers is optional, only needed for transformer models
+    pass  # spacy-transformers is optional, only needed for some transformer models
+
+# Import spacy-curated-transformers to register curated transformer components
+# This is required for models like en_core_web_trf that use the newer architecture
+try:
+    import spacy_curated_transformers  # noqa: F401
+except ImportError:
+    pass  # spacy-curated-transformers is optional, needed for en_core_web_trf etc.
 
 from .config import settings
 

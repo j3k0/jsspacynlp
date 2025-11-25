@@ -68,6 +68,38 @@ Each model entry requires:
 }
 ```
 
+## Version Compatibility (Important!)
+
+**This server uses spaCy 3.7.2.** When configuring models, use compatible versions:
+
+### Correct Model Versions for spaCy 3.7.x
+
+| Model | Version | Notes |
+|-------|---------|-------|
+| `en_core_web_sm` | 3.7.1 | ✓ Works |
+| `en_core_web_lg` | 3.7.1 | ✓ Works |
+| `en_core_web_trf` | 3.7.1 | ⚠️ Requires `spacy-curated-transformers` |
+| `fr_dep_news_trf` | 3.7.0 | ✓ Works with `spacy-transformers` |
+| `it_core_news_lg` | **3.7.0** | ⚠️ Note: 3.7.1 does NOT exist |
+| `pt_core_news_lg` | **3.7.0** | ⚠️ Note: 3.7.1 does NOT exist |
+| `ru_core_news_lg` | **3.7.0** | ⚠️ Note: 3.7.1 does NOT exist |
+
+### Common Issues
+
+**"wrapped_listener extra fields not permitted"**
+- The English transformer model (`en_core_web_trf`) requires `spacy-curated-transformers`
+- The server's requirements.txt includes this dependency
+
+**"Failed to download model"**
+- Check the model version exists - not all models have 3.7.1 versions
+- Italian, Portuguese, and Russian large models use version **3.7.0**
+
+### Finding Available Versions
+
+Check the spaCy models releases page: https://github.com/explosion/spacy-models/releases
+
+Search for your model (e.g., `it_core_news_lg`) to see available versions.
+
 ## Model Loading Methods
 
 The service supports three ways to load models:

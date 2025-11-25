@@ -14,7 +14,53 @@
       "type": "transformer",
       "path": "fr_dep_news_trf",
       "download_url": "https://github.com/explosion/spacy-models/releases/download/fr_dep_news_trf-3.7.0/fr_dep_news_trf-3.7.0-py3-none-any.whl",
-      "disable": ["parser", "ner"]
+      "disable": ["parser", "ner"],
+      "_comment": "French transformer model (uses spacy-transformers)"
+    },
+    {
+      "name": "en_core_web_trf",
+      "language": "en",
+      "type": "transformer",
+      "path": "en_core_web_trf",
+      "download_url": "https://github.com/explosion/spacy-models/releases/download/en_core_web_trf-3.7.1/en_core_web_trf-3.7.1-py3-none-any.whl",
+      "disable": ["parser", "ner"],
+      "_comment": "English transformer model (requires spacy-curated-transformers)"
+    },
+    {
+      "name": "en_core_web_lg",
+      "language": "en",
+      "type": "large",
+      "path": "en_core_web_lg",
+      "download_url": "https://github.com/explosion/spacy-models/releases/download/en_core_web_lg-3.7.1/en_core_web_lg-3.7.1-py3-none-any.whl",
+      "disable": ["parser", "ner"],
+      "_comment": "English large model (good alternative to transformer, faster)"
+    },
+    {
+      "name": "it_core_news_lg",
+      "language": "it",
+      "type": "large",
+      "path": "it_core_news_lg",
+      "download_url": "https://github.com/explosion/spacy-models/releases/download/it_core_news_lg-3.7.0/it_core_news_lg-3.7.0-py3-none-any.whl",
+      "disable": ["parser", "ner"],
+      "_comment": "Note: version 3.7.0 (not 3.7.1 - doesn't exist for this model)"
+    },
+    {
+      "name": "pt_core_news_lg",
+      "language": "pt",
+      "type": "large",
+      "path": "pt_core_news_lg",
+      "download_url": "https://github.com/explosion/spacy-models/releases/download/pt_core_news_lg-3.7.0/pt_core_news_lg-3.7.0-py3-none-any.whl",
+      "disable": ["parser", "ner"],
+      "_comment": "Note: version 3.7.0 (not 3.7.1 - doesn't exist for this model)"
+    },
+    {
+      "name": "ru_core_news_lg",
+      "language": "ru",
+      "type": "large",
+      "path": "ru_core_news_lg",
+      "download_url": "https://github.com/explosion/spacy-models/releases/download/ru_core_news_lg-3.7.0/ru_core_news_lg-3.7.0-py3-none-any.whl",
+      "disable": ["parser", "ner"],
+      "_comment": "Note: version 3.7.0 (not 3.7.1 - doesn't exist for this model)"
     },
     {
       "name": "custom_from_huggingface",
@@ -33,4 +79,3 @@
     }
   ]
 }
-
