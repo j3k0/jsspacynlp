@@ -1,10 +1,11 @@
 # Multi-stage build for optimized image size
-FROM python:3.11-slim as builder
+FROM python:3.11-slim-bookworm as builder
 
 # Install system dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    gcc \
-    g++ \
+# Remove APT hooks that can fail under restrictive seccomp profiles
+RUN rm -f /etc/apt/apt.conf.d/docker-clean \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends gcc g++ \
     && rm -rf /var/lib/apt/lists/*
 
 # Create virtual environment
@@ -16,11 +17,13 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Runtime stage
-FROM python:3.11-slim
+FROM python:3.11-slim-bookworm
 
 # Install curl for health checks
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    curl \
+# Remove APT hooks that can fail under restrictive seccomp profiles
+RUN rm -f /etc/apt/apt.conf.d/docker-clean \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends curl \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy virtual environment from builder
