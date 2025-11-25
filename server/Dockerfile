@@ -2,10 +2,9 @@
 FROM python:3.11-slim-bookworm as builder
 
 # Install system dependencies
-# Remove APT hooks that can fail under restrictive seccomp profiles
-RUN rm -f /etc/apt/apt.conf.d/docker-clean \
-    && apt-get update \
-    && apt-get install -y --no-install-recommends gcc g++ \
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gcc \
+    g++ \
     && rm -rf /var/lib/apt/lists/*
 
 # Create virtual environment
@@ -20,10 +19,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 FROM python:3.11-slim-bookworm
 
 # Install curl for health checks
-# Remove APT hooks that can fail under restrictive seccomp profiles
-RUN rm -f /etc/apt/apt.conf.d/docker-clean \
-    && apt-get update \
-    && apt-get install -y --no-install-recommends curl \
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy virtual environment from builder
