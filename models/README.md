@@ -259,6 +259,83 @@ volumes:
   - ./models:/app/models:ro
 ```
 
+## Guidelines for Custom Model Developers
+
+This section is for developers **creating custom spaCy models** for use with jsspacynlp.
+
+### Use Standard spaCy Language Codes
+
+In your model's `config.cfg`, use a **standard spaCy language code**:
+
+```ini
+[nlp]
+lang = "xx"  # Use "xx" (multilingual) for custom languages
+pipeline = ["tok2vec", "tagger", "morphologizer", "trainable_lemmatizer", "parser"]
+```
+
+**Do NOT use custom language codes** like `pso`, `gsw`, etc. that would require registration via custom Python code.
+
+#### Recommended Language Codes
+
+| Use case | Language code |
+|----------|---------------|
+| Custom/minority language | `xx` (multilingual) |
+| Language variant (e.g., Swiss German) | `xx` or parent language (`de`) |
+| Known language | Use standard ISO 639-1 code (`en`, `fr`, `sr`, etc.) |
+
+### Package Structure
+
+Your model should be extractable as a directory with this structure:
+
+```
+my_pipeline-0.0.0/
+├── my_pipeline/
+│   ├── __init__.py          # Optional, not required for loading
+│   ├── meta.json
+│   └── my_pipeline-0.0.0/   # <-- This is the model path
+│       ├── config.cfg       # Must have lang = "xx" or standard code
+│       ├── meta.json
+│       ├── vocab/
+│       ├── tok2vec/
+│       ├── tagger/
+│       └── ...
+```
+
+### Configuration in jsspacynlp
+
+Add your model to `config.json`:
+
+```json
+{
+  "name": "my_pipeline",
+  "language": "oc",
+  "type": "custom",
+  "path": "/app/models/extracted/my_pipeline-0.0.0/my_pipeline/my_pipeline-0.0.0"
+}
+```
+
+**Note:** The `language` field in the config is for **API documentation/routing** and can be any identifier. The `lang` in `config.cfg` must be a valid spaCy language code.
+
+### What NOT to Do
+
+- ❌ Don't use custom language codes in `config.cfg` (e.g., `lang = "pso"`)
+- ❌ Don't create `lang_registration.py` files
+- ❌ Don't rely on pip installation for language registration
+
+### Testing Your Model
+
+Before deploying, verify your model loads correctly:
+
+```bash
+python -c "import spacy; nlp = spacy.load('/path/to/model'); print(nlp.pipe_names)"
+```
+
+### Why These Guidelines?
+
+jsspacynlp loads models directly from disk using `spacy.load()`. Custom language codes require registration with spaCy's language registry, which adds complexity and potential failure points. Using `xx` (multilingual) or standard language codes ensures your model loads reliably without additional setup.
+
+---
+
 ## Documentation
 
 - [API_REFERENCE.md](../API_REFERENCE.md) - Complete API reference

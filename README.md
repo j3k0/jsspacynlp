@@ -222,7 +222,7 @@ const json = result.toJSON();
 - Portuguese: `pt_core_news_lg`
 - Russian: `ru_core_news_lg`
 
-**Custom Models:** Supported via model configuration
+**Custom Models:** Supported via model configuration. See [Guidelines for Custom Model Developers](models/README.md#guidelines-for-custom-model-developers) for creating compatible models.
 
 ### Installing Models
 
