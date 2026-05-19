@@ -111,7 +111,7 @@ List available models.
       "name": "fr_dep_news_trf",
       "language": "fr",
       "type": "transformer",
-      "version": "3.7.0",
+      "version": "3.8.0",
       "components": ["tok2vec", "tagger", "lemmatizer"]
     }
   ]
@@ -126,7 +126,7 @@ Service information.
 ```json
 {
   "name": "jsspacynlp",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "spacy_version": "3.8.x",
   "models_loaded": 2
 }
@@ -138,11 +138,14 @@ Service information.
 
 - `JSSPACYNLP_MODELS_CONFIG_DIR`: Path to models directory (default: `/app/models`)
 - `JSSPACYNLP_MODELS_CONFIG_FILE`: Config file name (default: `config.json`)
+- `JSSPACYNLP_MODELS_CONFIG_DEFAULT`: Default config file name (default: `config.default.json`)
+- `JSSPACYNLP_MODELS_CACHE_DIR`: Model download cache directory (default: `/app/models-cache`)
 - `JSSPACYNLP_HOST`: Server host (default: `0.0.0.0`)
 - `JSSPACYNLP_PORT`: Server port (default: `8000`)
 - `JSSPACYNLP_LOG_LEVEL`: Logging level (default: `info`)
 - `JSSPACYNLP_MAX_BATCH_SIZE`: Maximum batch size (default: `1000`)
 - `JSSPACYNLP_MAX_TEXT_LENGTH`: Maximum text length (default: `1000000`)
+- `JSSPACYNLP_CORS_ORIGINS`: Allowed CORS origins (default: `["*"]`)
 
 ### Model Configuration
 

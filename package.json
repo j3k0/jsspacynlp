@@ -1,6 +1,6 @@
 {
   "name": "jsspacynlp",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Fast lemmatization service powered by spaCy with TypeScript/JavaScript client",
   "main": "client/dist/index.js",
   "types": "client/dist/index.d.ts",

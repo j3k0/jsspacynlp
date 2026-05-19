@@ -140,7 +140,7 @@ Add `huggingface_repo` to download custom models from HuggingFace:
 - ✅ Host custom trained spaCy models on HuggingFace
 - ✅ Easy sharing and versioning
 - ✅ Automatic download at startup
-- ✅ Models cached in `/app/models/downloads/`
+- ✅ Models cached persistently in `/app/models-cache/`
 
 **Requirements for HuggingFace models:**
 - Must be valid spaCy model directories (with config.cfg, vocab/, etc.)
@@ -174,7 +174,7 @@ Use `path` without download URLs for:
    - **If not found + has `download_url`**: Download via pip and load
    - **If still not found + has `huggingface_repo`**: Download from HuggingFace and load
    - **If all fail**: Log error and skip model
-3. Downloaded models are cached persistently in `/app/models/downloads/`
+3. Downloaded models are cached persistently in `/app/models-cache/`
 4. On restart: Models already downloaded load instantly
 
 ## Manual Model Installation (Alternative)

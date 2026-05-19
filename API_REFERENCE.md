@@ -209,6 +209,7 @@ Prefix all with `JSSPACYNLP_`:
 
 - `JSSPACYNLP_MODELS_CONFIG_DIR` - Model directory path (default: `/app/models`)
 - `JSSPACYNLP_MODELS_CONFIG_FILE` - Config filename (default: `config.json`)
+- `JSSPACYNLP_MODELS_CONFIG_DEFAULT` - Default config filename (default: `config.default.json`)
 - `JSSPACYNLP_MODELS_CACHE_DIR` - Model download cache directory (default: `/app/models-cache`)
 - `JSSPACYNLP_HOST` - Server host (default: `0.0.0.0`)
 - `JSSPACYNLP_PORT` - Server port (default: `8000`)
