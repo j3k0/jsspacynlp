@@ -38,7 +38,7 @@ Each model entry requires:
       "language": "en",
       "type": "small",
       "path": "en_core_web_sm",
-      "download_url": "https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.7.1/en_core_web_sm-3.7.1-py3-none-any.whl",
+      "download_url": "https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl",
       "disable": ["parser", "ner"]
     },
     {
@@ -46,7 +46,7 @@ Each model entry requires:
       "language": "fr",
       "type": "transformer",
       "path": "fr_dep_news_trf",
-      "download_url": "https://github.com/explosion/spacy-models/releases/download/fr_dep_news_trf-3.7.0/fr_dep_news_trf-3.7.0-py3-none-any.whl",
+      "download_url": "https://github.com/explosion/spacy-models/releases/download/fr_dep_news_trf-3.8.0/fr_dep_news_trf-3.8.0-py3-none-any.whl",
       "disable": ["parser", "ner"]
     },
     {
@@ -70,19 +70,19 @@ Each model entry requires:
 
 ## Version Compatibility (Important!)
 
-**This server uses spaCy 3.7.2.** When configuring models, use compatible versions:
+**This server uses spaCy 3.8.x.** When configuring models, use compatible versions:
 
-### Correct Model Versions for spaCy 3.7.x
+### Correct Model Versions for spaCy 3.8.x
 
 | Model | Version | Notes |
 |-------|---------|-------|
-| `en_core_web_sm` | 3.7.1 | ✓ Works |
-| `en_core_web_lg` | 3.7.1 | ✓ Works |
-| `en_core_web_trf` | 3.7.1 | ⚠️ Requires `spacy-curated-transformers` |
-| `fr_dep_news_trf` | 3.7.0 | ✓ Works with `spacy-transformers` |
-| `it_core_news_lg` | **3.7.0** | ⚠️ Note: 3.7.1 does NOT exist |
-| `pt_core_news_lg` | **3.7.0** | ⚠️ Note: 3.7.1 does NOT exist |
-| `ru_core_news_lg` | **3.7.0** | ⚠️ Note: 3.7.1 does NOT exist |
+| `en_core_web_sm` | 3.8.0 | ✓ Works |
+| `en_core_web_lg` | 3.8.0 | ✓ Works |
+| `en_core_web_trf` | 3.8.0 | ⚠️ Requires `spacy-curated-transformers` |
+| `fr_dep_news_trf` | 3.8.0 | ✓ Works with `spacy-transformers` |
+| `it_core_news_lg` | 3.8.0 | ✓ Works |
+| `pt_core_news_lg` | 3.8.0 | ✓ Works |
+| `ru_core_news_lg` | 3.8.0 | ✓ Works |
 
 ### Common Issues
 
@@ -91,8 +91,8 @@ Each model entry requires:
 - The server's requirements.txt includes this dependency
 
 **"Failed to download model"**
-- Check the model version exists - not all models have 3.7.1 versions
-- Italian, Portuguese, and Russian large models use version **3.7.0**
+- Check the model version exists on the [spaCy models releases page](https://github.com/explosion/spacy-models/releases)
+- Not all models have the same version numbers — always verify before configuring
 
 ### Finding Available Versions
 
@@ -112,7 +112,7 @@ Add `download_url` to automatically download and install models at startup:
 {
   "name": "en_core_web_sm",
   "path": "en_core_web_sm",
-  "download_url": "https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.7.1/en_core_web_sm-3.7.1-py3-none-any.whl"
+  "download_url": "https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl"
 }
 ```
 
@@ -182,7 +182,7 @@ Use `path` without download URLs for:
 You can still manually install models if preferred:
 
 ```bash
-pip install https://github.com/explosion/spacy-models/releases/download/fr_dep_news_trf-3.7.0/fr_dep_news_trf-3.7.0-py3-none-any.whl
+pip install https://github.com/explosion/spacy-models/releases/download/fr_dep_news_trf-3.8.0/fr_dep_news_trf-3.8.0-py3-none-any.whl
 ```
 
 Or with spaCy CLI:

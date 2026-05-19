@@ -5,6 +5,42 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.0] - 2025-05-19
+
+### Added
+
+- On-demand model downloading from HuggingFace Hub (`huggingface_repo` config field)
+- On-demand model downloading from pip URLs (`download_url` config field)
+- Models cache directory with persistent Docker volume for downloaded models
+- Fallback from `config.json` to `config.default.json` when user config is missing
+- `spacy-transformers` dependency for transformer-based models (fr_dep_news_trf, es_dep_news_trf)
+- `spacy-curated-transformers` dependency for English transformer model (en_core_web_trf)
+- `JSSPACYNLP_MODELS_CACHE_DIR` environment variable for cache directory configuration
+- `JSSPACYNLP_CORS_ORIGINS` environment variable for CORS origin configuration
+
+### Changed
+
+- Upgraded spaCy from 3.7.x to 3.8.11
+- Updated all spaCy model versions to 3.8.0 in config examples
+- Docker Compose now mounts a persistent `models-cache` volume for downloaded models
+
+### Fixed
+
+- TypeScript type for `BatchProcessor` configuration
+- Dockerfile compatibility with restricted systems
+
+## [Unreleased]
+
+### Planned
+
+- GPU acceleration support
+- WebSocket support for real-time processing
+- Multi-document context processing
+- Additional export formats (CONLL, TEI XML)
+- Authentication and rate limiting
+- Metrics and monitoring dashboards
+- Model hot-reloading without restart
+
 ## [0.1.0] - 2024-11-03
 
 ### Added
@@ -84,50 +120,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Support for user-provided spaCy models
 - Serbian and Occitan (to be provided by users)
 
-## [Unreleased]
 
-### Planned
-
-- GPU acceleration support
-- Model caching for improved performance
-- WebSocket support for real-time processing
-- Multi-document context processing
-- Additional export formats (CONLL, TEI XML)
-- Authentication and rate limiting
-- Metrics and monitoring dashboards
-- Model hot-reloading without restart
-
----
-
-## Release Notes
-
-### v0.1.0 - Initial Release
-
-This is the first release of jsspacynlp, providing a complete lemmatization microservice with:
-
-- High-performance FastAPI server
-- TypeScript client library
-- Batch processing capabilities
-- Multi-language support
-- Docker deployment
-- Comprehensive documentation
-
-**Installation:**
-```bash
-# Server
-docker-compose up -d
-
-# Client
-npm install jsspacynlp
-```
-
-**Quick Start:**
-```typescript
-import { SpacyNLP } from 'jsspacynlp';
-
-const nlp = new SpacyNLP({ apiUrl: 'http://localhost:8000' });
-const result = await nlp.lemmatize('Hello world', 'en_core_web_sm');
-```
-
-See README.md for full documentation.
 

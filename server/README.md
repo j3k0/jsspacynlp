@@ -127,7 +127,7 @@ Service information.
 {
   "name": "jsspacynlp",
   "version": "0.1.0",
-  "spacy_version": "3.7.2",
+  "spacy_version": "3.8.x",
   "models_loaded": 2
 }
 ```

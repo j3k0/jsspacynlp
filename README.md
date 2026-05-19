@@ -141,10 +141,15 @@ npm install jsspacynlp
 
 Environment variables (prefix: `JSSPACYNLP_`):
 
-- `MODELS_CONFIG_DIR` - Model directory path (default: `/app/models`)
-- `MODELS_CONFIG_FILE` - Config filename (default: `config.json`)
-- `MAX_BATCH_SIZE` - Maximum batch size (default: `1000`)
-- `MAX_TEXT_LENGTH` - Maximum text length (default: `1000000`)
+- `JSSPACYNLP_MODELS_CONFIG_DIR` - Model directory path (default: `/app/models`)
+- `JSSPACYNLP_MODELS_CONFIG_FILE` - Config filename (default: `config.json`)
+- `JSSPACYNLP_MODELS_CACHE_DIR` - Model download cache directory (default: `/app/models-cache`)
+- `JSSPACYNLP_HOST` - Server host (default: `0.0.0.0`)
+- `JSSPACYNLP_PORT` - Server port (default: `8000`)
+- `JSSPACYNLP_LOG_LEVEL` - Logging level (default: `info`)
+- `JSSPACYNLP_MAX_BATCH_SIZE` - Maximum batch size (default: `1000`)
+- `JSSPACYNLP_MAX_TEXT_LENGTH` - Maximum text length (default: `1000000`)
+- `JSSPACYNLP_CORS_ORIGINS` - Allowed CORS origins (default: `["*"]`)
 
 ### Model Configuration
 
@@ -231,7 +236,7 @@ const json = result.toJSON();
 python -m spacy download fr_dep_news_trf
 
 # Via pip
-pip install https://github.com/explosion/spacy-models/releases/download/fr_dep_news_trf-3.7.0/fr_dep_news_trf-3.7.0-py3-none-any.whl
+pip install https://github.com/explosion/spacy-models/releases/download/fr_dep_news_trf-3.8.0/fr_dep_news_trf-3.8.0-py3-none-any.whl
 
 # Auto-download (add download_url in config.json)
 ```

@@ -207,13 +207,15 @@ interface Document {
 
 Prefix all with `JSSPACYNLP_`:
 
-- `MODELS_CONFIG_DIR` - Model directory path (default: `/app/models`)
-- `MODELS_CONFIG_FILE` - Config filename (default: `config.json`)
-- `HOST` - Server host (default: `0.0.0.0`)
-- `PORT` - Server port (default: `8000`)
-- `LOG_LEVEL` - Logging level (default: `info`)
-- `MAX_BATCH_SIZE` - Maximum batch size (default: `1000`)
-- `MAX_TEXT_LENGTH` - Maximum text length (default: `1000000`)
+- `JSSPACYNLP_MODELS_CONFIG_DIR` - Model directory path (default: `/app/models`)
+- `JSSPACYNLP_MODELS_CONFIG_FILE` - Config filename (default: `config.json`)
+- `JSSPACYNLP_MODELS_CACHE_DIR` - Model download cache directory (default: `/app/models-cache`)
+- `JSSPACYNLP_HOST` - Server host (default: `0.0.0.0`)
+- `JSSPACYNLP_PORT` - Server port (default: `8000`)
+- `JSSPACYNLP_LOG_LEVEL` - Logging level (default: `info`)
+- `JSSPACYNLP_MAX_BATCH_SIZE` - Maximum batch size (default: `1000`)
+- `JSSPACYNLP_MAX_TEXT_LENGTH` - Maximum text length (default: `1000000`)
+- `JSSPACYNLP_CORS_ORIGINS` - Allowed CORS origins (default: `["*"]`)
 
 ### Model Configuration
 
